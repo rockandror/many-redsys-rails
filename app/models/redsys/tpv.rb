@@ -92,10 +92,12 @@ module Redsys
     end
 
     def merchant_signature
+      debugger
       encrypt_mac256(merchant_params, calculate_key)
     end
 
     def response_signature(response_data)
+      debugger
       # For checking the received signature from the gateway
       urlsafe_encrypt_mac256(response_data, calculate_key)
     end
@@ -109,10 +111,12 @@ module Redsys
       end
 
       def urlsafe_encrypt_mac256(data, key)
+        debugger
         Base64.urlsafe_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), key, data))
       end
 
       def encrypt_mac256(data, key)
+        debugger
         Base64.strict_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), key, data))
       end
     

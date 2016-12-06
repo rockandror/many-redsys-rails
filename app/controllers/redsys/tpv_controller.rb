@@ -22,6 +22,7 @@ module Redsys
       merchant_name = params[:merchant_name]
       product_description = params[:product_description]
       gateway = params[:gateway]
+      @custom_gateway = gateway
       @tpv = Redsys::Tpv.new(amount, order, language, merchant_url, url_ok, url_ko, merchant_name, product_description, gateway)
     end
     
