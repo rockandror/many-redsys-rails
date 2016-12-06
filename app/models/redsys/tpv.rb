@@ -6,9 +6,10 @@ require 'rails-i18n'
 module Redsys
   class Tpv
     attr_accessor :amount, :language, :order, :currency, :merchant_code, :terminal,
-                  :transaction_type, :merchant_url, :url_ok, :url_ko, :sha1, :signature
+                  :transaction_type, :merchant_url, :url_ok, :url_ko, :sha1, :signature, :gateway
 
     def self.tpv_url
+      debugger
       Rails.configuration.redsys_rails[:url]
     end
 
@@ -16,7 +17,8 @@ module Redsys
       Rails.configuration.redsys_rails[:signature_version]
     end
 
-    def initialize(amount, order, language, merchant_url = nil, url_ok = nil, url_ko = nil, merchant_name = nil, product_description = nil)
+    def initialize(amount, order, language, merchant_url = nil, url_ok = nil, url_ko = nil, merchant_name = nil, product_description = nil, gateway)
+      debugger
       amount        ||= 0
       order         ||= 0
       language      ||= language_from_locale
@@ -25,6 +27,7 @@ module Redsys
       url_ko        ||= ''
       merchant_name ||= ''
       product_description ||=''
+      gateway ||=''
 
       @amount = (amount * 100).to_i.to_s
       #TODO: there should be a validation of the order format. So far we only make it a string of 12 positions
@@ -34,6 +37,7 @@ module Redsys
       @url_ok = url_ok
       @url_ko = url_ko
       @merchant_name = merchant_name
+      @gateway =  gateway
       @product_description = product_description
       @currency = Rails.configuration.redsys_rails[:merchant_currency]
       @merchant_code = Rails.configuration.redsys_rails[:merchant_code]
