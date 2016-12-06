@@ -8,18 +8,15 @@ module Redsys
     attr_accessor :amount, :language, :order, :currency, :merchant_code, :terminal,
                   :transaction_type, :merchant_url, :url_ok, :url_ko, :sha1, :signature, :gateway
 
-    def self.tpv_url
-      debugger
-      Rails.configuration.redsys_rails[:url]
+    def self.tpv_url(gateway)
+      Rails.configuration.redsys_rails[gateway][:url]
     end
 
-    def self.signature_version
-      debugger
-      Rails.configuration.redsys_rails[:signature_version]
+    def self.signature_version(gateway)
+      Rails.configuration.redsys_rails[gateway][:signature_version]
     end
 
     def initialize(amount, order, language, merchant_url = nil, url_ok = nil, url_ko = nil, merchant_name = nil, product_description = nil, gateway)
-      debugger
       amount        ||= 0
       order         ||= 0
       language      ||= language_from_locale
@@ -92,12 +89,10 @@ module Redsys
     end
 
     def merchant_signature
-      debugger
       encrypt_mac256(merchant_params, calculate_key)
     end
 
     def response_signature(response_data)
-      debugger
       # For checking the received signature from the gateway
       urlsafe_encrypt_mac256(response_data, calculate_key)
     end
@@ -111,12 +106,10 @@ module Redsys
       end
 
       def urlsafe_encrypt_mac256(data, key)
-        debugger
         Base64.urlsafe_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), key, data))
       end
 
       def encrypt_mac256(data, key)
-        debugger
         Base64.strict_encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), key, data))
       end
     
