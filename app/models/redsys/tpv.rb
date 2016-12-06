@@ -14,6 +14,7 @@ module Redsys
     end
 
     def self.signature_version
+      debugger
       Rails.configuration.redsys_rails[:signature_version]
     end
 
@@ -39,10 +40,10 @@ module Redsys
       @merchant_name = merchant_name
       @gateway =  gateway
       @product_description = product_description
-      @currency = Rails.configuration.redsys_rails[:merchant_currency]
-      @merchant_code = Rails.configuration.redsys_rails[:merchant_code]
-      @terminal = Rails.configuration.redsys_rails[:merchant_terminal]
-      @transaction_type = Rails.configuration.redsys_rails[:merchant_transaction_type]
+      @currency = Rails.configuration.redsys_rails[gateway][:merchant_currency]
+      @merchant_code = Rails.configuration.redsys_rails[gateway][:merchant_code]
+      @terminal = Rails.configuration.redsys_rails[gateway][:merchant_terminal]
+      @transaction_type = Rails.configuration.redsys_rails[gateway][:merchant_transaction_type]
     end
 
     def language_from_locale
@@ -86,6 +87,7 @@ module Redsys
     end
 
     def merchant_signature_3des
+      debugger
       Base64.strict_encode64(encrypt_3DES(@order, Base64.strict_decode64(Rails.configuration.redsys_rails[:sha_256_key])))
     end
 
@@ -101,6 +103,7 @@ module Redsys
     private
 
       def calculate_key
+        debugger
         # support function for getting the key both at sending and at reception
         encrypt_3DES(@order, Base64.urlsafe_decode64(Rails.configuration.redsys_rails[:sha_256_key]))
       end

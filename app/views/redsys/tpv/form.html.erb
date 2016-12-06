@@ -1,4 +1,5 @@
 <%= form_tag(Redsys::Tpv.tpv_url, id: 'redsys_tpv_form') do %>
+  <% debugger %>
   <%= hidden_field_tag 'Ds_SignatureVersion', Redsys::Tpv.signature_version %>
   <%= hidden_field_tag 'Ds_MerchantParameters', @tpv.merchant_params %>
   <%= hidden_field_tag 'Ds_Signature', @tpv.merchant_signature %>
