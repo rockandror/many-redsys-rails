@@ -9,17 +9,14 @@ module Redsys
                   :transaction_type, :merchant_url, :url_ok, :url_ko, :sha1, :signature, :gateway
 
     def self.tpv_url(gateway)
-      debugger
       Rails.configuration.redsys_rails[gateway][:url]
     end
 
     def self.signature_version(gateway)
-      debugger
       Rails.configuration.redsys_rails[gateway][:signature_version]
     end
 
     def initialize(amount, order, language, merchant_url = nil, url_ok = nil, url_ko = nil, merchant_name = nil, product_description = nil, gateway)
-      debugger
       amount        ||= 0
       order         ||= 0
       language      ||= language_from_locale
@@ -81,8 +78,7 @@ module Redsys
         :DS_MERCHANT_URLOK => @url_ok,
         :DS_MERCHANT_URLKO => @url_ko,
         :DS_MERCHANT_MERCHANTNAME => @merchant_name,
-        :DS_MERCHANT_PRODUCTDESCRIPTION => @product_description,
-        :DS_MERCHANT_GATEWAY => @gateway
+        :DS_MERCHANT_PRODUCTDESCRIPTION => @product_description
       }
       JSON.generate(merchant_parameters)
     end

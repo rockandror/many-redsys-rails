@@ -13,7 +13,6 @@ module Redsys
     # - url_ko:string => url de vuelta del tpv cuando ocurre un error
     #
     def form
-      debugger
       amount = BigDecimal.new(params[:amount] || '0')
       order = params[:order] || '0'
       language = params[:language]
