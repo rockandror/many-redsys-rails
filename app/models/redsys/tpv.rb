@@ -6,17 +6,17 @@ require 'rails-i18n'
 module Redsys
   class Tpv
     attr_accessor :amount, :language, :order, :currency, :merchant_code, :terminal,
-                  :transaction_type, :merchant_url, :url_ok, :url_ko, :sha1, :signature
+                  :transaction_type, :merchant_url, :url_ok, :url_ko, :sha1, :signature, :gateway
 
-    def self.tpv_url
-      Rails.configuration.redsys_rails[:url]
+    def self.tpv_url(gateway)
+      Rails.configuration.redsys_rails[gateway][:url]
     end
 
-    def self.signature_version
-      Rails.configuration.redsys_rails[:signature_version]
+    def self.signature_version(gateway)
+      Rails.configuration.redsys_rails[gateway][:signature_version]
     end
 
-    def initialize(amount, order, language, merchant_url = nil, url_ok = nil, url_ko = nil, merchant_name = nil, product_description = nil)
+    def initialize(amount, order, language, merchant_url = nil, url_ok = nil, url_ko = nil, merchant_name = nil, product_description = nil, gateway)
       amount        ||= 0
       order         ||= 0
       language      ||= language_from_locale
@@ -25,6 +25,7 @@ module Redsys
       url_ko        ||= ''
       merchant_name ||= ''
       product_description ||=''
+      gateway ||=''
 
       @amount = (amount * 100).to_i.to_s
       #TODO: there should be a validation of the order format. So far we only make it a string of 12 positions
@@ -34,11 +35,12 @@ module Redsys
       @url_ok = url_ok
       @url_ko = url_ko
       @merchant_name = merchant_name
+      @gateway =  gateway
       @product_description = product_description
-      @currency = Rails.configuration.redsys_rails[:merchant_currency]
-      @merchant_code = Rails.configuration.redsys_rails[:merchant_code]
-      @terminal = Rails.configuration.redsys_rails[:merchant_terminal]
-      @transaction_type = Rails.configuration.redsys_rails[:merchant_transaction_type]
+      @currency = Rails.configuration.redsys_rails[gateway][:merchant_currency]
+      @merchant_code = Rails.configuration.redsys_rails[gateway][:merchant_code]
+      @terminal = Rails.configuration.redsys_rails[gateway][:merchant_terminal]
+      @transaction_type = Rails.configuration.redsys_rails[gateway][:merchant_transaction_type]
     end
 
     def language_from_locale
@@ -82,7 +84,7 @@ module Redsys
     end
 
     def merchant_signature_3des
-      Base64.strict_encode64(encrypt_3DES(@order, Base64.strict_decode64(Rails.configuration.redsys_rails[:sha_256_key])))
+      Base64.strict_encode64(encrypt_3DES(@order, Base64.strict_decode64(Rails.configuration.redsys_rails[gateway][:sha_256_key])))
     end
 
     def merchant_signature
@@ -98,7 +100,7 @@ module Redsys
 
       def calculate_key
         # support function for getting the key both at sending and at reception
-        encrypt_3DES(@order, Base64.urlsafe_decode64(Rails.configuration.redsys_rails[:sha_256_key]))
+        encrypt_3DES(@order, Base64.urlsafe_decode64(Rails.configuration.redsys_rails[gateway][:sha_256_key]))
       end
 
       def urlsafe_encrypt_mac256(data, key)

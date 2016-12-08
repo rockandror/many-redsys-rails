@@ -12,24 +12,46 @@
 # => signature_version: versión firma HMAC SHA256
 #
 
-if Rails.env == 'production'
-  Rails.configuration.redsys_rails = {
-    url: '',
-    sha_256_key: '',
-    merchant_code: '',
-    merchant_terminal: '',
-    merchant_transaction_type: '',
-    merchant_currency: '978',
-    signature_version: 'HMAC_SHA256_V1'
+if Rails.env.production?
+  Rails.configuration.redsys_rails = { 
+    "gateway_dollar_name_1" => {
+      url: '',
+      sha_256_key: '',
+      merchant_code: '',
+      merchant_terminal: '',
+      merchant_transaction_type: '',
+      merchant_currency: '840', # currency = $
+      signature_version: 'HMAC_SHA256_V1'
+    },
+    "gateway_euro_name_2" => {
+      url: '',
+      sha_256_key: '',
+      merchant_code: '',
+      merchant_terminal: '',
+      merchant_transaction_type: '',
+      merchant_currency: '978', # currency = €
+      signature_version: 'HMAC_SHA256_V1'      
+    } 
   }
 else
   Rails.configuration.redsys_rails = {
-    url: '',
-    sha_256_key: '',
-    merchant_code: '',
-    merchant_terminal: '',
-    merchant_transaction_type: '',
-    merchant_currency: '978',
-    signature_version: 'HMAC_SHA256_V1'
-  }
+    "gateway_dollar_name_1" => {
+      url: '',
+      sha_256_key: '',
+      merchant_code: '',
+      merchant_terminal: '',
+      merchant_transaction_type: '',
+      merchant_currency: '840', # currency = $
+      signature_version: 'HMAC_SHA256_V1'
+    },
+    "gateway_euro_name_2" => {
+      url: '',
+      sha_256_key: '',
+      merchant_code: '',
+      merchant_terminal: '',
+      merchant_transaction_type: '',
+      merchant_currency: '978', # currency = €
+      signature_version: 'HMAC_SHA256_V1'      
+    }   
+  }    
 end
