@@ -36,13 +36,13 @@ En el controlador donde realice el tratamiento de su pedido, una vez obtenido el
 redireccione al formulario de salto del tpv virtual mediante el siguiente código.
 
 ```ruby
-redirect_to redsys_form_path(amount: '', order: '', language: '')
+redirect_to redsys_form_path(gateway: '', amount: '', order: '', language: '')
 ```
 
 Un ejemplo:
 
 ```ruby
-redirect_to redsys_form_path(amount: '20.35', order: '0001', language: '001')
+redirect_to redsys_form_path(gateway: 'gateway_dollar_name_1', amount: '20.35', order: '0001', language: '001')
 ```
 
 #### Códigos de idioma
@@ -58,7 +58,7 @@ puede proporcionarlas en la redirección mediante los parámetros url_ok y url_k
 Un ejemplo:
 
 ```ruby
-redirect_to redsys_form_path(amount: '20.35', order: '0001', language: '001', url_ok: 'http://misite.com/pedido_ok', url_ko: 'http://misite.com/pedido_error')
+redirect_to redsys_form_path(gateway: 'gateway_dollar_name_1', amount: '20.35', order: '0001', language: '001', url_ok: 'http://misite.com/pedido_ok', url_ko: 'http://misite.com/pedido_error')
 ```
 
 #### Datos de prueba
@@ -88,7 +88,17 @@ Instalación del webhook para la notificación online.
 El módulo es funcional y hace accesible una ruta para que el TPV virtual pueda notificar la transacción. Es aquí donde el comercio
 ha de realizar las acciones necesarias, como por ejemplo actualizar el estado de su pedido confirmando el pago.
 
-*Falta una explicación más detallada de esta funcionalidad.*
+rails g redsys:notifications que te creará un controlador 'notifications_controller' con una acción post 'notification'. La entidad financiera realizará una llamada a esa ruta cuando el usuario realice el pago, ahí podrás actualizar el pedido, enviar un email al usuario... etc..
+
+Si quieres debuggear lo que ocurre en ese callback te sugiero utilices una aplicación estilo ngrok que te redirecciona localhost a una dirección accesible desde el exterior y en el formulario de salto a la pasarela sustituyas la url de notifications por la generada. Un ejemplo:
+
+if Rails.env.production?
+  redirect_to redsys_form_path(gateway: '', amount: '', order: '', language: '', url_ok: '', url_ko: '')
+else
+  redirect_to redsys_form_path(gateway: '', amount: '', order: '', language: '', merchant_url: 'http://5696c509.ngrok.io/redsys/notification', url_ok: '', url_ko: '')
+end
+ 
+Cuando lo subas a producción acuérdate de quitar el parámetro merchant_url para que pille la url por defecto.
 
 ## Contribuir
 
