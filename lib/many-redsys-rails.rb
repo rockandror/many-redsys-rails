@@ -1,7 +1,7 @@
 require "rails"
-require "redsys-rails/version"
+require "many-redsys-rails/version"
 
-module RedsysRails
+module ManyRedsysRails
   class Engine < ::Rails::Engine
   end
 end
