@@ -1,18 +1,18 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'redsys-rails/version'
+require 'many-redsys-rails/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "redsys-rails"
-  spec.version       = RedsysRails::Rails::VERSION
+  spec.name          = "many-redsys-rails"
+  spec.version       = ManyRedsysRails::Rails::VERSION
   spec.authors       = ["guzmanweb", "Asier Azaceta", "taitus", "Senen", "pmaojo"]
   spec.email         = ["carlos@guzmanweb.com", "asier.azaceta@techabout.es", "sebastia.roig@gmail.com", "senenrodero@gmail.com", "info@pulpomarketing.com"]
   spec.summary       = %q{A Ruby gem for communicating with the payment platform of Redsys}
-  spec.homepage      = "https://github.com/rockandror/redsys-rails"
+  spec.homepage      = "https://github.com/rockandror/many-redsys-rails"
   spec.license       = "MIT"
   spec.description = <<-EOF
-  redsys-rails is a gem for integrating the Redsys Virtual Payments Gateway/Terminal (TPV).
+  many-redsys-rails is a gem for integrating multiple the Redsys Virtual Payments Gateway/Terminal (TPV).
   Mainly used by Spanish banks.
   EOF
 
