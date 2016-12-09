@@ -1,6 +1,6 @@
 # Redsys::Rails
 
-Redsys-Rails es una pequeña solución para integrar de forma rápida y sencilla la pasarela de pago de [Redsys.es](http://www.redsys.es/).
+Many-Redsys-Rails es una pequeña solución para integrar de forma rápida y sencilla la pasarela de pago de [Redsys.es](http://www.redsys.es/) **para múltiples pasarelas de pago**.
 
 **Importante:** Esta gema está actualmente en fase de desarrollo. Se aceptan todo tipo de sugerencias.
 
@@ -13,7 +13,7 @@ Redsys-Rails es una pequeña solución para integrar de forma rápida y sencilla
 Añade la siguiente línea al Gemfile de tu aplicación:
 
 ```ruby
-gem 'redsys-rails'
+gem 'many-redsys-rails'
 ```
 
 Ejecuta:
@@ -22,7 +22,7 @@ Ejecuta:
 
 O instala la gema tu mismo:
 
-    $ gem install redsys-rails
+    $ gem install many-redsys-rails
 
 Genera el inicializador ejecutando el generador:
 
