@@ -1,6 +1,6 @@
 module Redsys
   class TpvController < ApplicationController
-    skip_before_filter :verify_authenticity_token, only: [:confirmation]
+    skip_before_action :verify_authenticity_token, only: [:confirmation]
 
     #
     # Formulario de salto a la pasarela de pago
@@ -13,7 +13,7 @@ module Redsys
     # - url_ko:string => url de vuelta del tpv cuando ocurre un error
     #
     def form
-      amount = BigDecimal.new(params[:amount] || '0')
+      amount = BigDecimal(params[:amount] || '0')
       order = params[:order] || '0'
       language = params[:language]
       url_ok = params[:url_ok]
@@ -24,6 +24,6 @@ module Redsys
       gateway = params[:gateway]
       @tpv = Redsys::Tpv.new(amount, order, language, merchant_url, url_ok, url_ko, merchant_name, product_description, gateway)
     end
-    
+
   end
 end
